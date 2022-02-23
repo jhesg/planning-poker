@@ -1,56 +1,42 @@
+import { useSocket } from "@/hooks/useSocket";
 import type { NextPage } from "next";
 import Head from "next/head";
 
-import { useEffect, useState, useRef, ChangeEvent } from "react";
-
-import { io, Socket } from "socket.io-client";
-
-// const useSocket = () => {
-//   const _socket: Socket = io();
-//   const ref = useRef(_socket);
-
-//   const socket = ref.current;
-
-//   socket.on("connect", () => {
-//     console.log("connected");
-//   });
-
-//   return socket;
-// };
-
-let socket: Socket;
+import { useState, useEffect, FormEvent } from "react";
 
 const Home: NextPage = () => {
-  const socketInitializer = async () => {
-    await fetch("/api/socket");
-    socket = io();
+  // const [state, setState] = useState({
+  //   display: false,
+  // });
 
-    socket.on("connect", () => {
-      console.log("connected");
-    });
+  const [socket, roomData] = useSocket();
+  console.log("🚀 ~ roomData", roomData);
 
-    socket.on("connection", (socket) => {
-      socket.on("input-change", (msg: string) => {
-        socket.broadcast.emit("update-input", msg);
-      });
-    });
+  // const setDisplay = (display: boolean) => {
+  //   setState({ ...state, display });
+  // };
 
-    socket.on("update-input", (msg) => {
-      setInput(msg);
-    });
-  };
+  useEffect(() => {}, []);
 
-  useEffect(() => {
-    socketInitializer();
-  }, []);
+  // useEffect(() => {
+  // socket.on("update-reveal", (display: boolean) => {
+  //   console.log("🚀 ~ update-reveal", display, state.display);
+  //   setDisplay(display);
+  // });
+  // }, []);
 
-  const [input, setInput] = useState("");
+  // const handleReveal = () => {
+  //   console.log("🚀 ~ handleReveal", state.display);
+  //   if (state.display === true) {
+  //     socket.emit("hide");
+  //   }
 
-  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    const text = e?.target?.value;
-    setInput(text);
-    socket.emit("input-change", text);
-  };
+  //   if (state.display === false) {
+  //     socket.emit("reveal");
+  //   }
+
+  //   setDisplay(!state.display);
+  // };
 
   return (
     <div>
@@ -62,23 +48,10 @@ const Home: NextPage = () => {
 
       <main>
         <h1 className="text-3xl font-bold">Planning Poker</h1>
-        <input
-          placeholder="Type something"
-          value={input}
-          onChange={onChangeHandler}
-        />
+        {/* <button onClick={handleReveal}>
+          {state.display ? "hide" : "reveal"}
+        </button> */}
       </main>
-
-      <footer className="flex items-center content-center flex-1 px-0 py-2 border-t border-emerald-600 ">
-        <a
-          href="#"
-          target="_self"
-          rel="noopener noreferrer"
-          className="flex items-center justify-center flex-grow text-emerald-500"
-        >
-          Powered by JhesG
-        </a>
-      </footer>
     </div>
   );
 };

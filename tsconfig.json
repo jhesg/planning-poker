@@ -17,7 +17,9 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@/components": ["components/*"],
+      "@/hooks/*": ["hooks/*"],
+      "@/components/*": ["components/*"],
+      "@/utils": ["utils"],
       "@/css": ["styles/globals.css"]
     }
   },
