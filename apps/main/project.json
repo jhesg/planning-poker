@@ -10,7 +10,7 @@
         "outputPath": "dist/apps/main",
         "main": "apps/main/src/main.ts",
         "tsConfig": "apps/main/tsconfig.app.json",
-        "assets": ["apps/main/src/assets"]
+        "assets": ["apps/main/src/assets", "apps/main/src/views"]
       },
       "configurations": {
         "production": {
